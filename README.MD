@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛰️ OSAI Everything Framework
+# 🛰️ OSAI Everything Agent
 
 **An AI-driven, multi-agent operating workflow for the OffSec OSAI exam and labs.**
 
@@ -36,9 +36,10 @@ the kill chain and writes its findings to shared **session memory**, so the
 whole engagement has one durable, reproducible source of truth — even across
 dropped sessions.
 
-The technique base is drawn from two field references:
+The technique base is drawn from three field references:
 
 - 📘 [OSCP Everything](https://bernas.gitbook.io/oscp-everything)
+- 🌐 [OSWE Everything](https://bernas.gitbook.io/oswe-everything)
 - 🤖 [OSAI Everything](https://bernas.gitbook.io/osai-everything)
 
 ## Highlights
@@ -180,7 +181,8 @@ If a session drops, start a new one from the workspace root and say
 ## Credits & references
 
 Built on the techniques documented in
-[OSCP Everything](https://bernas.gitbook.io/oscp-everything) and
+[OSCP Everything](https://bernas.gitbook.io/oscp-everything),
+[OSWE Everything](https://bernas.gitbook.io/oswe-everything), and
 [OSAI Everything](https://bernas.gitbook.io/osai-everything).
 
 ## License
