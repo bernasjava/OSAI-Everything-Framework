@@ -17,6 +17,10 @@ documents - keeping a clean, reproducible record of every step.
 > recon, enumeration, and exploitation on its own in the background, doing the
 > basic legwork so no target sits idle. You stay in control; it keeps the work
 > moving.
+>
+> You steer it at every step: redirect a test, feed in your own suggestions,
+> and extend the agents' knowledge with your own observations about the box.
+> It treats your input as ground truth and adapts around it.
 
 > [!WARNING]
 > **Authorized use only.** This workflow is for the OffSec OSAI exam and
@@ -73,16 +77,20 @@ The technique base is drawn from three field references:
       └────────────────────► │  exploitator │ ──────────► │  local_escalator │
                              └──────────────┘             └──────────────────┘
 
-   Operator  ──(manual)──►  ad_reconator_exploitator        (full AD kill chain)
-
    Operator  ──/autopilot──►  orchestrates the whole chain across many hosts
 
    Every agent reads from and writes to  ──►  session_memory/
 ```
 
 Invoking `@enumerator` alone triggers the automatic chain:
-**enumerator → web_enumerator (if web/API) → exploitator → local_escalator.**
+**enumerator -> web_enumerator (if web/API) -> exploitator -> local_escalator.**
 Active Directory is always a manual trigger.
+
+The flow is never a black box. At any point the operator can step in manually
+- pause or redirect a stage, run an agent out of order, or inject their own
+analysis and experience into `session_memory/` so the following steps build
+on it. The agents pick up those notes as ground truth and adapt the rest of
+the chain accordingly.
 
 ## The agents
 
