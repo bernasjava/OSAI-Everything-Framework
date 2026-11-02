@@ -5,13 +5,13 @@
 **An AI-driven, multi-agent operating workflow for the OffSec OSAI exam and labs.**
 
 Point it at an authorized host and it enumerates, exploits, escalates, and
-documents — keeping a clean, reproducible record of every step.
+documents - keeping a clean, reproducible record of every step.
 
 `Claude Code` · `OffSec OSAI` · `authorized use only` · `MIT`
 
 </div>
 
-> **First and foremost a copilot for the operator** — it drives one box with
+> **First and foremost a copilot for the operator** - it drives one box with
 > you, suggesting the next move, preparing exact commands, and writing up
 > evidence as you go. But when you're busy on another machine, it can also run
 > recon, enumeration, and exploitation on its own in the background, doing the
@@ -33,7 +33,7 @@ documents — keeping a clean, reproducible record of every step.
 A set of specialized [Claude Code](https://claude.com/claude-code) subagents
 coordinated by a single master instruction file. Each agent owns one stage of
 the kill chain and writes its findings to shared **session memory**, so the
-whole engagement has one durable, reproducible source of truth — even across
+whole engagement has one durable, reproducible source of truth - even across
 dropped sessions.
 
 The technique base is drawn from three field references:
@@ -44,40 +44,40 @@ The technique base is drawn from three field references:
 
 ## Highlights
 
-- **Five focused agents** — recon, web, exploitation, local escalation, and a
+- **Five focused agents** - recon, web, exploitation, local escalation, and a
   full Active Directory kill chain.
-- **One-command autopilot** — run the entire chain across many hosts,
+- **One-command autopilot** - run the entire chain across many hosts,
   hands-off, looping on new credentials and pivots.
-- **Separation of concerns** — enumeration/detection is kept apart from
+- **Separation of concerns** - enumeration/detection is kept apart from
   exploitation; destructive actions always pause for the operator.
-- **Durable memory** — scope, credentials, the exploitation path, and proofs
+- **Durable memory** - scope, credentials, the exploitation path, and proofs
   live in `session_memory/` and survive restarts.
-- **Report-ready** — `path.md` captures a fully reproducible chain; `proofs.md`
+- **Report-ready** - `path.md` captures a fully reproducible chain; `proofs.md`
   captures `hostname` + proof file + IP + `whoami` per host and privilege.
-- **AI-aware** — covers LLM/agent, RAG, MCP, A2A, and AI-infrastructure
+- **AI-aware** - covers LLM/agent, RAG, MCP, A2A, and AI-infrastructure
   surfaces alongside classic network, web, and AD targets.
 
 ## Workflow
 
-```mermaid
-flowchart LR
-    O([Operator]) -->|@enumerator IP| E[enumerator]
-    E -->|web/API found| W[web_enumerator]
-    E --> X[exploitator]
-    W --> X
-    X -->|shell| L[local_escalator]
-    O -.->|manual trigger| AD[ad_reconator_exploitator]
-    O ==>|/autopilot| AP{{autopilot}}
-    AP -.orchestrates.-> E & W & X & L
+```text
+   Operator
+      │
+      │  @enumerator <IP>
+      ▼
+ ┌────────────┐   web/API   ┌─────────────────┐
+ │ enumerator │ ──────────► │  web_enumerator │
+ └────────────┘             └─────────────────┘
+      │                              │
+      │                              ▼
+      │                      ┌──────────────┐    shell    ┌──────────────────┐
+      └────────────────────► │  exploitator │ ──────────► │  local_escalator │
+                             └──────────────┘             └──────────────────┘
 
-    E --> M[(session_memory)]
-    W --> M
-    X --> M
-    L --> M
-    AD --> M
+   Operator  ──(manual)──►  ad_reconator_exploitator        (full AD kill chain)
 
-    classDef mem fill:#1f2933,stroke:#6b4fbb,color:#fff;
-    class M mem;
+   Operator  ──/autopilot──►  orchestrates the whole chain across many hosts
+
+   Every agent reads from and writes to  ──►  session_memory/
 ```
 
 Invoking `@enumerator` alone triggers the automatic chain:
@@ -109,7 +109,7 @@ claude
 /agents
 ```
 
-Then add your authorized target IPs to `session_memory/targets.md` — nothing
+Then add your authorized target IPs to `session_memory/targets.md` - nothing
 is attacked unless it is listed there.
 
 ### Run a single host
@@ -119,7 +119,7 @@ is attacked unless it is listed there.
 ```
 
 Enumerates, deep-dives any web service, attempts exploitation, and escalates
-if it gets a shell — recording everything to `session_memory/`.
+if it gets a shell - recording everything to `session_memory/`.
 
 ### Run everything, hands-off
 
@@ -134,7 +134,7 @@ if it gets a shell — recording everything to `session_memory/`.
 | `--until HH:MM` | Hard stop at the given local time. |
 
 Autopilot stops only for a destructive action, an out-of-scope target, the
-deadline, or an exhausted target set — then posts a run summary.
+deadline, or an exhausted target set - then posts a run summary.
 
 ## Repository layout
 
@@ -161,22 +161,22 @@ osai-everything-agent/
 |---|---|
 | `targets.md` | Scope and per-host state (`UNTESTED` / `LIKELY` / `CONFIRMED` / `DEAD END`). |
 | `credentials.md` | Every credential and hash, its source, and where it works. |
-| `path.md` | The complete, reproducible exploitation chain — your report backbone. |
+| `path.md` | The complete, reproducible exploitation chain - your report backbone. |
 | `proofs.md` | `hostname` + proof file + `ip`/`ipconfig` + `whoami` per host and privilege. |
 
 If a session drops, start a new one from the workspace root and say
-"continue" — agents rebuild context from these files.
+"continue" - agents rebuild context from these files.
 
 ## Operating principles
 
-- **Scope is sacred** — agents only act on hosts in `targets.md` and never
+- **Scope is sacred** - agents only act on hosts in `targets.md` and never
   pivot out of scope.
-- **Evidence is never altered** — raw output is preserved verbatim.
-- **Detection ≠ exploitation** — enumeration agents detect and hand off;
+- **Evidence is never altered** - raw output is preserved verbatim.
+- **Detection ≠ exploitation** - enumeration agents detect and hand off;
   exploitation is deliberate.
-- **Operator stays in control** — destructive or irreversible actions pause
+- **Operator stays in control** - destructive or irreversible actions pause
   for confirmation.
-- **Confidentiality** — exam data never leaves the private workspace.
+- **Confidentiality** - exam data never leaves the private workspace.
 
 ## Credits & references
 
