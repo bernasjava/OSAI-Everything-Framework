@@ -86,11 +86,10 @@ Invoking `@enumerator` alone triggers the automatic chain:
 **enumerator -> web_enumerator (if web/API) -> exploitator -> local_escalator.**
 Active Directory is always a manual trigger.
 
-The flow is never a black box. At any point the operator can step in manually
-- pause or redirect a stage, run an agent out of order, or inject their own
-analysis and experience into `session_memory/` so the following steps build
-on it. The agents pick up those notes as ground truth and adapt the rest of
-the chain accordingly.
+At any point the operator can step in manually - pause or redirect a stage,
+run an agent out of order, or inject their own analysis and experience into
+`session_memory/` so the following steps build on it. The agents pick up
+those notes as ground truth and adapt the rest of the chain accordingly.
 
 ## The agents
 
@@ -112,9 +111,6 @@ cd osai-everything-agent
 
 # 2. Launch Claude Code from the workspace root
 claude
-
-# 3. List the loaded agents
-/agents
 ```
 
 Then add your authorized target IPs to `session_memory/targets.md` - nothing
@@ -128,6 +124,14 @@ is attacked unless it is listed there.
 
 Enumerates, deep-dives any web service, attempts exploitation, and escalates
 if it gets a shell - recording everything to `session_memory/`.
+
+You can also drive any stage on its own:
+
+```text
+@exploitator 10.10.10.5
+@local_escalator 10.10.10.5
+@ad_reconator_exploitator 10.10.10.10
+```
 
 ### Run everything, hands-off
 
